@@ -1,0 +1,23 @@
+services:
+  - type: worker
+    name: telegram-ai-coding-debugger
+    runtime: python
+    plan: 0.5c-512mb
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+    maxShutdownDelaySeconds: 30
+    disk:
+      name: debugger-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: AI_API_KEY
+        sync: false
+      - key: AI_BASE_URL
+        value: https://openrouter.ai/api/v1
+      - key: AI_MODEL
+        value: ~openai/gpt-latest
+      - key: DATABASE_PATH
+        value: /var/data/debugger.db
